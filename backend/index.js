@@ -5,6 +5,7 @@ const nodemailer = require('nodemailer');
 const constants = require('./src/constants');
 const dotenv = require("dotenv")
 const cookieParser = require('cookie-parser');
+const fs = require('fs');
 
 dotenv.config({ path: './config.env' }, (err) => {
     if (err) {
@@ -21,7 +22,6 @@ app.use(express.json())
 app.use(cookieParser());
 module.exports = app;
 
-
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -31,6 +31,8 @@ const transporter = nodemailer.createTransport({
 });
 
 var usermail;
+/* this defines the basic structure of the mail that is to be sent to user. 
+The data of this mail can be changed in constants.js*/
 const mailOptions = {
     from: constants.mail_from,
     to: usermail,
@@ -43,6 +45,26 @@ const db = mysql.createConnection({
     host: constants.host,
     password: constants.password,
     database: constants.database,
+    multipleStatements: true,
+});
+
+/* used to read the file schema.sql from src.
+ which creates the required tables as required by the application, details of mysql database like 
+ user,host,database_name and password can be changed in constants.js file present in src.*/
+const sqlScript = fs.readFileSync('./src/schema.sql', 'utf8');
+db.connect((err) => {
+    if (err) {
+        console.error('Error connecting to MySQL:', err);
+        return;
+    }
+
+    db.query(sqlScript, (err, results) => {
+        if (err) {
+            console.error('Error executing SQL script:', err);
+        } else {
+            console.log('Database schema created successfully.');
+        }
+    });
 });
 
 app.get("/user", (req, res) => {
@@ -81,7 +103,6 @@ app.post("/", (req, res) => {
         }
     });
 });
-
 
 
 app.post("/signup", (req, res) => {
@@ -149,7 +170,7 @@ app.post('/book', (req, res) => {
                     } else {
                         db.query("DELETE FROM availabletimes WHERE email=? and starttime=? and endtime=? and availabledate=?", [dremail, starttime, endtime, date]);
                         mailOptions.to = usermail;
-                        mailOptions.text=mailOptions.text+starttime+"-"+endtime+" on "+date;
+                        mailOptions.text = mailOptions.text + starttime + "-" + endtime + " on " + date;
                         transporter.sendMail(mailOptions, (error, info) => {
                             if (error) {
                                 res.send('Error sending email');

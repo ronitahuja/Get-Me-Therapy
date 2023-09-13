@@ -18,15 +18,15 @@ The Mysql database used should contain tables:
     ->appointments, query used to create is
     CREATE TABLE appointments(id INT AUTO_INCREMENT PRIMARY KEY, dremail VARCHAR(100),username VARCHAR(50), starttime VARCHAR(10),endtime VARCHAR(10),date VARCHAR(20));
 
+    ->breaktimes, query used to create is
+    CREATE TABLE breaktimes(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(100), starttime VARCHAR(10),endtime VARCHAR(10),breakdate VARCHAR(20));
+    
+    ->leavedates, query used to create is
+    CREATE TABLE leavedates(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(100),leavedate VARCHAR(20));
+    
     ->availabletimes, query used to create is
     CREATE TABLE availabletimes(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(100), starttime VARCHAR(10),endtime VARCHAR(10),availabledate VARCHAR(20));
 
-    ->breaktimes, query used to create is
-    CREATE TABLE breaktimes(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(100), starttime VARCHAR(10),endtime VARCHAR(10),breakdate VARCHAR(20));
-
-    ->leavedates, query used to create is
-    CREATE TABLE availabletimes(id INT AUTO_INCREMENT PRIMARY KEY, email VARCHAR(100),leavedate VARCHAR(20));
-
     ->members, query used to create is
-    CREATE TABLE availabletimes(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), password VARCHAR(50), role VARCHAR(15), email VARCHAR(100));
+    CREATE TABLE members(id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(50), password VARCHAR(50), role VARCHAR(15), email VARCHAR(100));
 */
