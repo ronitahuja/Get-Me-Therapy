@@ -78,4 +78,6 @@ npm start
 ### Access the application:
 open your web browser and visit http://localhost:3000 to access the web application.You can now use and test the application locally.
 
-    
+## Authors
+
+- [@ronitahuja](https://www.github.com/ronitahuja)
